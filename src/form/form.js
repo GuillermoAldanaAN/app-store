@@ -1,28 +1,29 @@
 import {Button, InputLabel, Select, TextField} from '@mui/material'
 import React, {useState} from 'react'
-
+import { saveProduct } from '../Services/productsServices';
 const Form = () => {
+  const [isSaving, setIsSaving] = useState(false);
   const [formError, setFormError] = useState({name: '', type: '', size: ''})
-  const handleSubmit = e => {
-    e.preventDefault()
-    const {name, size, type} = e.target.elements
+  const validateField = ({name, value}) => {
+    setFormError(prevState => ({...prevState, [name]: value.length ? '' : `The ${name} is required`}))
+  }
+  const validateForm  = ({name, type, size}) => {
+    validateField({name: 'name', value: name });
+    validateField({name: 'size', value: size });
+    validateField({name: 'type', value: type });
+  }
 
-    if (!name.value) {
-      setFormError(prevState => ({...prevState, name: 'The name is required'}))
-    }
-    if (!size.value) {
-      setFormError(prevState => ({...prevState, size: 'The size is required'}))
-    }
-    if (!type) {
-      setFormError(prevState => ({...prevState, type: 'The type is required'}))
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsSaving(true)
+    const {name, size, type} = e.target.elements
+    validateForm({name: name.value, size: size.value, type: type});
+    await saveProduct();
+    setIsSaving(false);
   }
   const handleBlur = e => {
     const {name, value} = e.target
-    setFormError({
-      ...formError,
-      [name]: value.length ? '' : `The ${name} is required`,
-    })
+   validateField({name, value})
   }
   return (
     <React.Fragment>
@@ -43,13 +44,13 @@ const Form = () => {
           onBlur={handleBlur}
         />
         <InputLabel id="type">Type</InputLabel>
-        <Select labelId="type" id="type" value="" label="type">
+        <Select labelId="type" id="type" value="" name='type' label="type">
           <option value="electronic">electronic</option>
           <option value="furniture">Furniture</option>
           <option value="clothing">Clothing</option>
         </Select>
         {formError.type.length && <p>{formError.type}</p>}
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isSaving}>Submit</Button>
       </form>
     </React.Fragment>
   )

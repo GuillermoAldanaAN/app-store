@@ -47,6 +47,7 @@
   "devDependencies": {
     "eslint-config-prettier": "^8.5.0",
     "jest-watch-typeahead": "^0.6.5",
+    "msw": "^0.47.4",
     "typescript": "^4.8.4"
   }
 }
