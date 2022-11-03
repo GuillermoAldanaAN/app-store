@@ -1,12 +1,14 @@
+import { Container } from '@mui/material';
 import React from 'react'
-import Form from './Forms/form/'
+import Form from './Form/form'
 
-function App() {
+const App = () => {
   return (
-    <div>
-      <Form />
-    </div>
+    <Container maxWidth={'sm'}>
+          <Form />
+    </Container>
+
   )
 }
 
-export default App
+export default App;

@@ -1,6 +1,8 @@
-export const saveProduct = () => {
-    return fetch(`/products`,{
-        method: 'POST',
-        body: JSON.stringify({})
-      })
-}
+export const saveProduct = ({name, size, type}) =>
+  fetch('/products', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({name, size, type}),
+  })
