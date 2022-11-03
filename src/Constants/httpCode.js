@@ -1,0 +1,3 @@
+export const CREATED_STATUS = 201
+export const ERROR_STATUS_CODE = 500
+export const INVALID_REQUEST_STATUS = 400
